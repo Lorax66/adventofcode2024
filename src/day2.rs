@@ -31,7 +31,7 @@ fn is_safe_with_dampener(mut report: Vec<i32>) -> bool {
 }
 
 #[aoc(day2, part1)]
-pub fn task1(input: &str) -> usize {
+pub fn part1(input: &str) -> usize {
     // dbg!(&input);
     input
         .split_terminator("\n")
@@ -45,7 +45,7 @@ pub fn task1(input: &str) -> usize {
 }
 
 #[aoc(day2, part2)]
-pub fn task2(input: &str) -> usize {
+pub fn part2(input: &str) -> usize {
     // dbg!(&input);
     input
         .split_terminator("\n")

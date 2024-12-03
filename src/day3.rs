@@ -77,10 +77,10 @@ fn solve_line(line: &str, ignore_active: bool) -> u32 {
 }
 
 #[aoc(day3, part1)]
-pub fn task1(input: &str) -> u32 {
+pub fn part1(input: &str) -> u32 {
     solve_line(input, true)
 }
 #[aoc(day3, part2)]
-pub fn task2(input: &str) -> u32 {
+pub fn part2(input: &str) -> u32 {
     solve_line(input, false)
 }

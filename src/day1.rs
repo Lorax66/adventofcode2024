@@ -1,5 +1,5 @@
 #[aoc(day1, part1)]
-pub fn task1(input: &str) -> i32 {
+pub fn part1(input: &str) -> i32 {
     let (mut left, mut right): (Vec<i32>, Vec<i32>) = input
         .split_terminator('\n')
         .map(|s| -> (i32, i32) {
@@ -19,7 +19,7 @@ pub fn task1(input: &str) -> i32 {
 }
 
 #[aoc(day1, part2)]
-pub fn task2(input: &str) -> i32 {
+pub fn part2(input: &str) -> i32 {
     // dbg!(&input);
     let (mut left, mut right): (Vec<i32>, Vec<i32>) = input
         .split_terminator('\n')
