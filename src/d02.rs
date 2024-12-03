@@ -1,4 +1,4 @@
-fn is_safe(report: &mut Vec<i32>) -> bool {
+fn is_safe(mut report: Vec<i32>) -> bool {
     if report.len() <= 1 {
         return true;
     }
@@ -7,9 +7,7 @@ fn is_safe(report: &mut Vec<i32>) -> bool {
             return false;
         }
         report.reverse();
-        let result = is_safe(report);
-        report.reverse();
-        return result;
+        return is_safe(report);
     }
     return report.windows(2).all(|w| {
         // dbg!(w);
@@ -17,14 +15,14 @@ fn is_safe(report: &mut Vec<i32>) -> bool {
     });
 }
 
-fn is_safe_with_dampener(report: &mut Vec<i32>) -> bool {
-    if is_safe(report) {
+fn is_safe_with_dampener(mut report: Vec<i32>) -> bool {
+    if is_safe(report.clone()) {
         return true;
     }
     for i in 0..report.len() {
         let dampened_level = report[i];
         report.remove(i);
-        if is_safe(report) {
+        if is_safe(report.clone()) {
             return true;
         }
         report.insert(i, dampened_level);
@@ -32,22 +30,30 @@ fn is_safe_with_dampener(report: &mut Vec<i32>) -> bool {
     return false;
 }
 
-pub fn task1(input: Vec<String>) {
+#[aoc(day2, part1)]
+pub fn task1(input: &str) -> usize {
     // dbg!(&input);
-    let mut reports = input
-        .iter()
+    input
+        .split_terminator("\n")
         .map(|s| {
             s.split_whitespace()
                 .map(|s| s.parse::<i32>().unwrap())
                 .collect::<Vec<i32>>()
         })
-        .collect::<Vec<Vec<i32>>>();
-    println!(
-        "result: {}",
-        reports
-            .iter_mut()
-            .filter(|report| is_safe_with_dampener(*(mut report)))
-            .collect::<Vec<&mut Vec<i32>>>()
-            .len()
-    );
+        .filter(|report: &Vec<i32>| is_safe(report.clone()))
+        .count()
+}
+
+#[aoc(day2, part2)]
+pub fn task2(input: &str) -> usize {
+    // dbg!(&input);
+    input
+        .split_terminator("\n")
+        .map(|s| {
+            s.split_whitespace()
+                .map(|s| s.parse::<i32>().unwrap())
+                .collect::<Vec<i32>>()
+        })
+        .filter(|report: &Vec<i32>| is_safe_with_dampener(report.clone()))
+        .count()
 }

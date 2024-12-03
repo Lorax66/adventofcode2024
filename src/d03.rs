@@ -3,7 +3,9 @@
 // ];
 const RADIX: u32 = 10;
 
-fn solve_line(line: &mut String, active: &mut bool, result: &mut u32) {
+fn solve_line(line: &str, ignore_active: bool) -> u32 {
+    let mut active: bool = true;
+    let mut result: u32 = 0;
     #[derive(Debug, PartialEq, Eq)]
     enum State {
         FoundNothing,
@@ -44,17 +46,17 @@ fn solve_line(line: &mut String, active: &mut bool, result: &mut u32) {
                 second_num,
             } if c == ')' => {
                 // dbg!(active, first_num, second_num);
-                if *active {
-                    *result += first_num * second_num;
+                if active || ignore_active {
+                    result += first_num * second_num;
                 };
                 State::FoundNothing
             }
             State::FoundDoPar if c == ')' => {
-                *active = true;
+                active = true;
                 State::FoundNothing
             }
             State::FoundDontPar if c == ')' => {
-                *active = false;
+                active = false;
                 State::FoundNothing
             }
             State::FoundMulPar { first_num } if c.is_digit(RADIX) => State::FoundMulPar {
@@ -70,14 +72,15 @@ fn solve_line(line: &mut String, active: &mut bool, result: &mut u32) {
             _ => State::FoundNothing,
         }
     });
-    dbg!(active);
+    // dbg!(active);
+    return result;
 }
 
-pub fn task1(input: &mut Vec<String>) {
-    let mut active: bool = true;
-    let mut result: u32 = 0;
-    input
-        .iter_mut()
-        .for_each(|l| solve_line(l, &mut active, &mut result));
-    println!("result {}", result);
+#[aoc(day3, part1)]
+pub fn task1(input: &str) -> u32 {
+    solve_line(input, true)
+}
+#[aoc(day3, part2)]
+pub fn task2(input: &str) -> u32 {
+    solve_line(input, false)
 }

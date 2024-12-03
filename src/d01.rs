@@ -1,7 +1,7 @@
-pub fn task1(input: Vec<String>) {
-    dbg!(&input);
+#[aoc(day1, part1)]
+pub fn task1(input: &str) -> i32 {
     let (mut left, mut right): (Vec<i32>, Vec<i32>) = input
-        .iter()
+        .split_terminator('\n')
         .map(|s| -> (i32, i32) {
             let mut sw = s.split_whitespace();
             (
@@ -12,8 +12,29 @@ pub fn task1(input: Vec<String>) {
         .unzip();
     left.sort();
     right.sort();
-    dbg!(&left);
-    dbg!(&right);
+    left.iter()
+        .zip(right.iter())
+        .map(|(l, r)| (l - r).abs())
+        .sum()
+}
+
+#[aoc(day1, part2)]
+pub fn task2(input: &str) -> i32 {
+    // dbg!(&input);
+    let (mut left, mut right): (Vec<i32>, Vec<i32>) = input
+        .split_terminator('\n')
+        .map(|s| -> (i32, i32) {
+            let mut sw = s.split_whitespace();
+            (
+                sw.next().unwrap().parse::<i32>().unwrap(),
+                sw.next().unwrap().parse::<i32>().unwrap(),
+            )
+        })
+        .unzip();
+    left.sort();
+    right.sort();
+    // dbg!(&left);
+    // dbg!(&right);
     let mut left_iter = left.iter();
     let mut right_iter = right.iter();
 
@@ -43,7 +64,7 @@ pub fn task1(input: Vec<String>) {
         } else {
             assert!(next_l == next_r);
             if *next_l != last_found {
-                dbg!(last_found * found_value_right * found_value_left);
+                // dbg!(last_found * found_value_right * found_value_left);
                 result += last_found * found_value_right * found_value_left;
                 found_value_right = 0;
                 found_value_left = 0;
@@ -61,7 +82,7 @@ pub fn task1(input: Vec<String>) {
             };
         }
     }
-    dbg!(last_found * found_value_right * found_value_left);
+    // dbg!(last_found * found_value_right * found_value_left);
     result += last_found * found_value_right * found_value_left;
-    println!("result: {}", result);
+    return result;
 }
